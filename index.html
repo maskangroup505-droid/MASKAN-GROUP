@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MASKAN GROUP — عقارات وشقق</title>
+<meta name="description" content="MASKAN GROUP — تصفح شقق للبيع والإيجار بمواصفاتها الكاملة">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#122036;
+    --ink-2:#1c2f4d;
+    --paper:#F1EEE6;
+    --paper-2:#E8E3D6;
+    --line:rgba(18,32,54,.16);
+    --line-soft:rgba(18,32,54,.09);
+    --brass:#AD8A56;
+    --brass-deep:#8C6F41;
+    --green:#3E6259;
+    --text:#182131;
+    --muted:#6E6A5E;
+    --white:#FFFCF6;
+    --radius:2px;
+    --shadow: 0 10px 30px -12px rgba(18,32,54,.28);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--text);
+    font-family:'Tajawal',sans-serif;
+    line-height:1.6;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace; direction:ltr; unicode-bidi:isolate;}
+  h1,h2,h3,.display{font-family:'El Messiri',serif;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+  img{max-width:100%; display:block;}
+  ::selection{background:var(--brass); color:var(--white);}
+  :focus-visible{outline:2px solid var(--brass); outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+
+  /* Blueprint grid texture */
+  .blueprint{
+    background-image:
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--ink);
+    color:var(--white);
+    position:relative;
+    overflow:hidden;
+  }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:1180px; margin:0 auto; padding:20px 24px;
+    position:relative; z-index:2;
+  }
+  .logo{display:flex; flex-direction:column; gap:2px;}
+  .logo .word{font-size:26px; font-weight:700; letter-spacing:.06em;}
+  .logo .sub{font-family:'IBM Plex Mono',monospace; direction:ltr; text-align:right; unicode-bidi:isolate; font-size:11px; letter-spacing:.22em; color:var(--brass); text-transform:uppercase;}
+  .admin-entry{
+    display:flex; align-items:center; gap:8px;
+    background:transparent; color:var(--white);
+    border:1px solid rgba(255,255,255,.28);
+    padding:9px 14px; border-radius:var(--radius);
+    cursor:pointer; font-size:13px; transition:.2s;
+  }
+  .admin-entry:hover{border-color:var(--brass); color:var(--brass);}
+
+  .hero{
+    max-width:1180px; margin:0 auto; padding:56px 24px 76px;
+    position:relative; z-index:2;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.18em;
+    color:var(--brass); text-transform:uppercase; margin:0 0 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:26px; height:1px; background:var(--brass);}
+  .hero h1{font-size:clamp(30px,5vw,48px); margin:0 0 14px; line-height:1.15; font-weight:600; max-width:14ch;}
+  .hero p{max-width:52ch; color:rgba(255,252,246,.72); font-size:16px; margin:0 0 30px;}
+
+  .search-bar{
+    background:var(--white); border-radius:var(--radius);
+    display:flex; align-items:stretch; gap:0; max-width:640px;
+    box-shadow:var(--shadow); overflow:hidden;
+  }
+  .search-bar input[type="text"]{
+    flex:1; border:0; padding:16px 16px; font-size:15px; font-family:inherit; color:var(--text); background:transparent;
+  }
+  .search-bar input:focus{outline:none;}
+  .search-bar select{
+    border:0; border-right:1px solid var(--line-soft); background:transparent; padding:0 14px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); cursor:pointer;
+  }
+  .search-icon{display:flex; align-items:center; padding:0 16px; color:var(--muted);}
+
+  /* Title block flourish, bottom-right of hero */
+  .titleblock{
+    position:absolute; left:24px; bottom:0;
+    border:1px solid rgba(255,255,255,.18);
+    border-bottom:none;
+    font-family:'IBM Plex Mono',monospace; font-size:10px; color:rgba(255,252,246,.5);
+    display:none;
+  }
+  @media (min-width:860px){ .titleblock{display:flex;} }
+  .titleblock div{padding:8px 14px; border-right:1px solid rgba(255,255,255,.18); white-space:nowrap;}
+  .titleblock div:last-child{border-right:none;}
+  .titleblock b{color:var(--brass); font-weight:500;}
+
+  /* ---------- Listings ---------- */
+  main{max-width:1180px; margin:0 auto; padding:44px 24px 90px;}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:22px; flex-wrap:wrap;}
+  .section-head h2{font-size:22px; margin:0; font-weight:600;}
+  .count{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:22px;}
+
+  .card{
+    background:var(--white); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; cursor:pointer; transition:transform .18s ease, box-shadow .18s ease;
+    display:flex; flex-direction:column;
+  }
+  .card:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+  .card-media{position:relative; aspect-ratio:4/3; background:var(--paper-2); overflow:hidden;}
+  .card-media img{width:100%; height:100%; object-fit:cover;}
+  .placeholder-media{width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--line);}
+  .price-tag{
+    position:absolute; top:12px; left:0;
+    background:var(--brass); color:var(--white);
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500;
+    padding:6px 12px 6px 10px; border-radius:0 3px 3px 0;
+    box-shadow:0 4px 10px rgba(0,0,0,.18);
+  }
+  .type-tag{
+    position:absolute; top:12px; right:12px;
+    background:rgba(18,32,54,.82); color:var(--white);
+    font-size:11px; padding:4px 10px; border-radius:2px; letter-spacing:.03em;
+  }
+  .card-body{padding:16px 16px 14px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .card-body h3{margin:0; font-size:17px; font-weight:600; line-height:1.3;}
+  .loc{display:flex; align-items:center; gap:6px; color:var(--muted); font-size:13px;}
+  .loc svg{flex-shrink:0;}
+
+  .spec-strip{
+    display:flex; margin-top:auto; padding-top:12px; border-top:1px solid var(--line-soft);
+  }
+  .spec{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+    border-right:1px solid var(--line-soft); padding:0 4px;
+  }
+  .spec:first-child{padding-right:0;}
+  .spec:last-child{border-right:none; padding-left:0;}
+  .spec svg{color:var(--ink-2); opacity:.75;}
+  .spec .val{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text);}
+  .spec.off svg{color:#c2451f; opacity:.55;}
+  .spec.off .val{color:#c2451f;}
+
+  .code-strip{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); padding:8px 16px; border-top:1px solid var(--line-soft); letter-spacing:.04em;}
+
+  .empty{
+    border:1px dashed var(--line); border-radius:var(--radius); padding:60px 24px; text-align:center; color:var(--muted);
+  }
+  .empty svg{margin:0 auto 16px; color:var(--line);}
+  .empty h3{margin:0 0 8px; color:var(--text); font-weight:600;}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--line); padding:26px 24px; margin-top:20px;}
+  .footer-inner{max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  .footer-inner .mono{font-size:11px; color:var(--muted);}
+  .link-btn{background:none; border:none; color:var(--muted); font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px;}
+  .link-btn:hover{color:var(--ink);}
+
+  /* ---------- Modal shell ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(18,20,25,.55); backdrop-filter:blur(2px);
+    display:none; align-items:center; justify-content:center; padding:20px; z-index:50;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:var(--white); border-radius:var(--radius); width:100%; max-height:90vh; overflow:auto;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.4); position:relative;
+  }
+  .modal-close{
+    position:absolute; top:14px; left:14px; z-index:5;
+    background:var(--white); border:1px solid var(--line); border-radius:50%;
+    width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+
+  /* detail modal */
+  #detailModal .modal{max-width:760px;}
+  .detail-gallery{aspect-ratio:16/9; background:var(--paper-2); position:relative;}
+  .detail-gallery img{width:100%; height:100%; object-fit:cover;}
+  .thumbs{display:flex; gap:8px; padding:10px 20px; overflow-x:auto;}
+  .thumbs img{width:64px; height:48px; object-fit:cover; border-radius:2px; cursor:pointer; opacity:.6; border:1px solid var(--line);}
+  .thumbs img.active{opacity:1; border-color:var(--brass);}
+  .detail-body{padding:26px 28px 32px;}
+  .detail-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:6px;}
+  .detail-head h2{margin:0; font-size:24px;}
+  .detail-price{font-family:'IBM Plex Mono',monospace; color:var(--brass-deep); font-size:19px; font-weight:600; white-space:nowrap;}
+  .detail-specs{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:14px; margin:22px 0; padding:18px 0; border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .detail-spec{display:flex; align-items:center; gap:10px;}
+  .detail-spec svg{color:var(--ink-2);}
+  .detail-spec.off svg{color:#c2451f;}
+  .detail-spec .lbl{font-size:11px; color:var(--muted); display:block;}
+  .detail-spec .v{font-family:'IBM Plex Mono',monospace; font-size:14px;}
+  .desc{color:var(--text); font-size:15px; white-space:pre-wrap;}
+  .wa-btn{
+    margin-top:22px; display:inline-flex; align-items:center; gap:8px;
+    background:var(--green); color:var(--white); text-decoration:none;
+    padding:12px 20px; border-radius:2px; font-size:14px; font-weight:500;
+  }
+
+  /* auth + admin modal */
+  #authModal .modal{max-width:360px; padding:30px 26px;}
+  #authModal h3{margin:0 0 6px; font-size:18px;}
+  #authModal p{margin:0 0 18px; color:var(--muted); font-size:13px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px;}
+  .field input, .field select, .field textarea{
+    width:100%; border:1px solid var(--line); border-radius:2px; padding:10px 12px;
+    font-family:inherit; font-size:14px; background:var(--paper); color:var(--text);
+  }
+  .field textarea{resize:vertical; min-height:70px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .toggle-row{display:flex; gap:10px;}
+  .toggle{
+    flex:1; text-align:center; padding:9px; border:1px solid var(--line); border-radius:2px; cursor:pointer; font-size:13px; color:var(--muted); user-select:none;
+  }
+  .toggle.on{background:var(--ink); color:var(--white); border-color:var(--ink);}
+  .btn{
+    background:var(--ink); color:var(--white); border:none; padding:12px 18px; border-radius:2px;
+    font-size:14px; cursor:pointer; font-weight:500; display:inline-flex; align-items:center; gap:8px; justify-content:center;
+  }
+  .btn:hover{background:var(--ink-2);}
+  .btn.brass{background:var(--brass);}
+  .btn.brass:hover{background:var(--brass-deep);}
+  .btn.ghost{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn:disabled{opacity:.6; cursor:default;}
+  .btn.block{width:100%;}
+  .error-msg{color:#b3271e; font-size:12.5px; margin-top:8px; display:none;}
+
+  /* admin dashboard */
+  #adminModal .modal{max-width:920px;}
+  .settings-box{padding:20px 26px; border-bottom:1px solid var(--line-soft); background:var(--paper);}
+  .settings-box h4{margin:0 0 14px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);}
+  .socialLink{color:var(--muted); display:flex; align-items:center;}
+  .socialLink:hover{color:var(--brass-deep);}
+  .img-thumbs{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .img-thumb{position:relative; width:64px; height:52px; border-radius:2px; overflow:hidden; border:1px solid var(--line);}
+  .img-thumb img{width:100%; height:100%; object-fit:cover;}
+  .img-thumb .rm{
+    position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%;
+    background:rgba(18,20,25,.75); color:#fff; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0;
+  }
+  .img-hint{font-size:11.5px; color:var(--muted); margin-top:6px;}
+  .admin-head{display:flex; justify-content:space-between; align-items:center; padding:20px 26px; border-bottom:1px solid var(--line-soft);}
+  .admin-head h3{margin:0; font-size:17px;}
+  .admin-body{padding:26px; display:grid; grid-template-columns:340px 1fr; gap:28px;}
+  @media (max-width:760px){ .admin-body{grid-template-columns:1fr;} }
+  .admin-form h4{margin:0 0 16px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);}
+  .admin-list h4{margin:0 0 14px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);}
+  .arow{
+    display:flex; align-items:center; gap:12px; padding:10px; border:1px solid var(--line-soft); border-radius:2px; margin-bottom:8px;
+  }
+  .arow img{width:52px; height:40px; object-fit:cover; border-radius:2px; background:var(--paper-2); flex-shrink:0;}
+  .arow .info{flex:1; min-width:0;}
+  .arow .info b{display:block; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .arow .info span{font-size:11.5px; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+  .arow .actions{display:flex; gap:6px;}
+  .icon-btn{background:none; border:1px solid var(--line); width:30px; height:30px; border-radius:2px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--muted);}
+  .icon-btn:hover{color:var(--ink); border-color:var(--ink);}
+  .icon-btn.danger:hover{color:#b3271e; border-color:#b3271e;}
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:var(--white); padding:12px 20px; border-radius:2px; font-size:13.5px;
+    box-shadow:var(--shadow); z-index:100; display:none; align-items:center; gap:8px;
+  }
+  .toast.show{display:flex;}
+  .toast.err{background:#7a2318;}
+  .spin{width:16px; height:16px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loading-wrap{display:flex; align-items:center; justify-content:center; padding:70px 0; color:var(--muted); gap:10px;}
+  .spin-dark{width:18px; height:18px; border:2px solid var(--line); border-top-color:var(--ink); border-radius:50%; animation:spin .7s linear infinite;}
+</style>
+</head>
+<body>
+
+<header class="blueprint">
+  <div class="topbar">
+    <div class="logo">
+      <img id="siteLogo" src="" alt="MASKAN GROUP" style="display:none; height:40px; object-fit:contain;">
+      <span class="word" id="logoText">MASKAN</span>
+      <span class="sub mono">GROUP — REAL ESTATE</span>
+    </div>
+    <button class="admin-entry" id="openAuth" type="button">
+      <span id="icon-lock"></span>
+      <span>لوحة التحكم</span>
+    </button>
+  </div>
+  <div class="hero">
+    <p class="eyebrow">مسكن جروب</p>
+    <h1>دوّر على بيتك الجاي</h1>
+    <p>كل الشقق المتاحة عندنا، بمواصفاتها الكاملة وصورها الحقيقية، في مكان واحد.</p>
+    <div class="search-bar">
+      <span class="search-icon" id="icon-search-slot"></span>
+      <input type="text" id="searchInput" placeholder="دور بالاسم أو المنطقة...">
+      <select id="roomsFilter">
+        <option value="">كل الغرف</option>
+        <option value="1">غرفة</option>
+        <option value="2">غرفتين</option>
+        <option value="3">3 غرف</option>
+        <option value="4">4+ غرف</option>
+      </select>
+    </div>
+  </div>
+  <div class="titleblock mono">
+    <div>DWG <b id="dwgCount">000</b></div>
+    <div>SCALE <b>1:100</b></div>
+    <div>REV <b id="dwgYear">2026</b></div>
+  </div>
+</header>
+
+<main>
+  <div class="section-head">
+    <h2>الشقق المتاحة</h2>
+    <span class="count mono" id="resultCount"></span>
+  </div>
+  <div id="loadingWrap" class="loading-wrap"><div class="spin-dark"></div><span>بيتحمّل...</span></div>
+  <div id="grid" class="grid" style="display:none;"></div>
+  <div id="emptyState" class="empty" style="display:none;"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span class="mono">© <span id="yr"></span> MASKAN GROUP</span>
+    <div id="socialLinks" style="display:flex; gap:12px;"></div>
+    <button class="link-btn" id="openAuth2" type="button"><span id="icon-lock2"></span> دخول لوحة التحكم</button>
+  </div>
+</footer>
+
+<!-- Detail modal -->
+<div class="overlay" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" data-close="detailModal"></button>
+    <div class="detail-gallery"><img id="dGalleryMain" alt=""></div>
+    <div class="thumbs" id="dThumbs"></div>
+    <div class="detail-body">
+      <div class="detail-head">
+        <h2 id="dTitle"></h2>
+        <span class="detail-price mono" id="dPrice"></span>
+      </div>
+      <div class="loc"><span id="icon-pin-slot"></span><span id="dLoc"></span></div>
+      <div class="detail-specs" id="dSpecs"></div>
+      <p class="desc" id="dDesc"></p>
+      <a href="#" id="dWa" class="wa-btn" style="display:none;" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+</div>
+
+<!-- Auth modal -->
+<div class="overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" data-close="authModal"></button>
+    <h3>لوحة التحكم</h3>
+    <p>ادخل الباسورد عشان تضيف أو تعدّل شقق</p>
+    <div class="field">
+      <label>الباسورد</label>
+      <input type="password" id="pwInput" placeholder="••••••••">
+    </div>
+    <button class="btn brass block" id="submitAuth" type="button">دخول</button>
+    <p class="error-msg" id="authError">الباسورد غلط، جرّب تاني</p>
+  </div>
+</div>
+
+<!-- Admin modal -->
+<div class="overlay" id="adminModal">
+  <div class="modal">
+    <div class="admin-head">
+      <h3>لوحة تحكم مسكن</h3>
+      <div style="display:flex; gap:10px;">
+        <button class="btn ghost" id="logoutAdmin" type="button">خروج</button>
+        <button class="modal-close" data-close="adminModal" style="position:static;"></button>
+      </div>
+    </div>
+    <div class="settings-box">
+      <h4>إعدادات الموقع — اللوجو والسوشيال ميديا</h4>
+      <div class="field-row" style="align-items:end;">
+        <div class="field">
+          <label>لوجو الموقع</label>
+          <input type="file" id="s_logo" accept="image/*">
+        </div>
+        <div class="field" style="display:flex; align-items:center; gap:10px;">
+          <img id="s_logoPreview" src="" alt="" style="display:none; height:44px; max-width:120px; object-fit:contain; border:1px solid var(--line); border-radius:2px; background:var(--white); padding:4px;">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>لينك فيسبوك</label><input type="text" id="s_fb" placeholder="https://facebook.com/yourpage" dir="ltr"></div>
+        <div class="field"><label>لينك تيك توك</label><input type="text" id="s_tiktok" placeholder="https://tiktok.com/@yourpage" dir="ltr"></div>
+      </div>
+      <button class="btn ghost" id="saveSettings" type="button">حفظ إعدادات الموقع</button>
+    </div>
+    <div class="admin-body">
+      <div class="admin-form">
+        <h4 id="formTitle">إضافة شقة جديدة</h4>
+        <div class="field"><label>عنوان الإعلان</label><input type="text" id="f_title" placeholder="شقة مودرن في المهندسين"></div>
+        <div class="field"><label>المنطقة</label><input type="text" id="f_area" placeholder="المهندسين، الجيزة"></div>
+        <div class="field-row">
+          <div class="field"><label>السعر</label><input type="text" id="f_price" placeholder="2,000,000 جنيه"></div>
+          <div class="field">
+            <label>نوع الإعلان</label>
+            <select id="f_type"><option value="بيع">بيع</option><option value="إيجار">إيجار</option></select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>عدد الغرف</label><input type="number" id="f_rooms" min="0" value="2"></div>
+          <div class="field"><label>عدد السراير</label><input type="number" id="f_beds" min="0" value="2"></div>
+        </div>
+        <div class="field"><label>عدد الحمامات</label><input type="number" id="f_baths" min="0" value="1"></div>
+        <div class="field">
+          <label>مكيفة؟</label>
+          <div class="toggle-row">
+            <div class="toggle on" data-target="f_ac" data-val="true">مكيفة</div>
+            <div class="toggle" data-target="f_ac" data-val="false">مش مكيفة</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>المطبخ</label>
+          <div class="toggle-row">
+            <div class="toggle on" data-target="f_kitchen" data-val="true">مجهز</div>
+            <div class="toggle" data-target="f_kitchen" data-val="false">مش مجهز</div>
+          </div>
+        </div>
+        <div class="field"><label>رقم واتساب (اختياري)</label><input type="text" id="f_phone" placeholder="201001234567" dir="ltr"></div>
+        <div class="field"><label>وصف الشقة</label><textarea id="f_desc" placeholder="تفاصيل إضافية عن الشقة..."></textarea></div>
+        <div class="field">
+          <label>صور الشقة</label>
+          <input type="file" id="f_images_file" accept="image/*" multiple>
+          <div class="img-thumbs" id="imgThumbs"></div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn brass" id="saveApt" type="button" style="flex:1;">نشر الشقة</button>
+          <button class="btn ghost" id="cancelEdit" type="button" style="display:none;">إلغاء</button>
+        </div>
+        <p class="error-msg" id="formError">لازم تكتب عنوان وسعر على الأقل</p>
+      </div>
+      <div class="admin-list">
+        <h4>الشقق المنشورة (<span id="adminCount">0</span>)</h4>
+        <div id="adminListWrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+
+  /* ---------------- Icons ---------------- */
+  const ICONS = {
+    lock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+    search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5"/></svg>',
+    pin:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>',
+    room:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg>',
+    bed:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M13 12h6a2 2 0 0 1 2 2v4"/><path d="M3 14h18"/><path d="M3 18v2"/><path d="M21 18v2"/></svg>',
+    ac:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4.2 6l15.6 12M19.8 6L4.2 18"/></svg>',
+    bath:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3Z"/><path d="M4 12V7.5A2 2 0 0 1 6.3 5.5"/><path d="M6 19v2M16 19v2"/></svg>',
+    kitchen:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="14" rx="1"/><circle cx="9" cy="11" r="1.5"/><circle cx="15" cy="11" r="1.5"/><path d="M8 6V4h8v2"/></svg>',
+    close:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>',
+    edit:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1Z"/></svg>',
+    trash:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>',
+    whatsapp:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 12l5 2v3a2 2 0 0 1-2 2C10.5 19 5 13.5 5 6a2 2 0 0 1 1-3Z"/></svg>',
+    building:'<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V6l8-3 8 3v15"/><path d="M4 21h16"/><path d="M9 21v-5h6v5"/><path d="M8 9h1M12 9h1M16 9h1M8 13h1M12 13h1M16 13h1"/></svg>',
+    facebook:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14 8h-1.5A1.5 1.5 0 0 0 11 9.5V12h3l-.4 3H11v6"/></svg>',
+    tiktok:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 4c.6 2.4 2.2 3.8 4.5 4"/></svg>',
+    upload:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>'
+  };
+  const el = (sel) => document.querySelector(sel);
+  const els = (sel) => document.querySelectorAll(sel);
+  el('#icon-lock').innerHTML = ICONS.lock;
+  el('#icon-lock2').innerHTML = ICONS.lock;
+  el('#icon-search-slot').innerHTML = ICONS.search;
+  el('#icon-pin-slot').innerHTML = ICONS.pin;
+  els('.modal-close').forEach(b => b.innerHTML = ICONS.close);
+  el('#yr').textContent = new Date().getFullYear();
+  el('#dwgYear').textContent = new Date().getFullYear();
+
+  /* ---------------- Config ---------------- */
+  // غيّر الباسورد ده قبل ما تنشر الموقع فعليًا
+  const ADMIN_PASSWORD = 'maskan2026';
+  const STORAGE_KEY = 'maskan_apartments';
+  const SETTINGS_KEY = 'maskan_settings';
+
+  /* ---------------- State ---------------- */
+  let apartments = [];
+  let isAdmin = false;
+  let editingId = null;
+  let acVal = true, kitchenVal = true;
+  let currentGalleryImages = [];
+  let siteSettings = { logo:'', facebook:'', tiktok:'' };
+  let pendingLogoData = null;
+  let pendingApartmentImages = [];
+
+  /* ---------------- Storage helpers ---------------- */
+  async function loadApartments(){
+    try{
+      const res = await window.storage.get(STORAGE_KEY, true);
+      apartments = res && res.value ? JSON.parse(res.value) : [];
+    }catch(e){
+      apartments = [];
+    }
+  }
+  async function persist(){
+    const result = await window.storage.set(STORAGE_KEY, JSON.stringify(apartments), true);
+    if(!result) throw new Error('save failed');
+  }
+  async function loadSettings(){
+    try{
+      const res = await window.storage.get(SETTINGS_KEY, true);
+      siteSettings = res && res.value ? JSON.parse(res.value) : { logo:'', facebook:'', tiktok:'' };
+    }catch(e){
+      siteSettings = { logo:'', facebook:'', tiktok:'' };
+    }
+    applySettings();
+  }
+  async function persistSettings(){
+    const result = await window.storage.set(SETTINGS_KEY, JSON.stringify(siteSettings), true);
+    if(!result) throw new Error('save failed');
+  }
+  function applySettings(){
+    const img = el('#siteLogo');
+    const text = el('#logoText');
+    if(siteSettings.logo){
+      img.src = siteSettings.logo;
+      img.style.display = 'block';
+      text.style.display = 'none';
+    }else{
+      img.style.display = 'none';
+      text.style.display = 'block';
+    }
+    const social = el('#socialLinks');
+    let html = '';
+    if(siteSettings.facebook) html += `<a class="socialLink" href="${escapeAttr(siteSettings.facebook)}" target="_blank" rel="noopener" title="فيسبوك">${ICONS.facebook}</a>`;
+    if(siteSettings.tiktok) html += `<a class="socialLink" href="${escapeAttr(siteSettings.tiktok)}" target="_blank" rel="noopener" title="تيك توك">${ICONS.tiktok}</a>`;
+    social.innerHTML = html;
+  }
+
+  /* ---------------- Toast ---------------- */
+  let toastTimer;
+  function toast(msg, isErr){
+    const t = el('#toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isErr ? ' err' : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> t.classList.remove('show'), 2600);
+  }
+
+  /* ---------------- Render: public grid ---------------- */
+  function specChip(iconKey, value, on){
+    return `<div class="spec ${on===false?'off':''}">${ICONS[iconKey]}<span class="val">${value}</span></div>`;
+  }
+
+  function cardTemplate(a){
+    const img = a.images && a.images[0];
+    const media = img
+      ? `<img src="${escapeAttr(img)}" alt="${escapeAttr(a.title)}" loading="lazy">`
+      : `<div class="placeholder-media">${ICONS.building}</div>`;
+    return `
+    <article class="card" data-id="${a.id}">
+      <div class="card-media">
+        ${media}
+        <span class="price-tag mono">${escapeHtml(a.price||'—')}</span>
+        <span class="type-tag">${escapeHtml(a.type||'بيع')}</span>
+      </div>
+      <div class="card-body">
+        <h3>${escapeHtml(a.title||'بدون عنوان')}</h3>
+        <div class="loc">${ICONS.pin}<span>${escapeHtml(a.area||'—')}</span></div>
+        <div class="spec-strip">
+          ${specChip('room', a.rooms ?? 0)}
+          ${specChip('bed', a.beds ?? 0)}
+          ${specChip('ac', a.ac ? 'AC' : '—', a.ac)}
+          ${specChip('bath', a.baths ?? 0)}
+          ${specChip('kitchen', a.kitchen ? '✓' : '—', a.kitchen)}
+        </div>
+      </div>
+      <div class="code-strip mono">MSK-${String(a.id).slice(-5)}</div>
+    </article>`;
+  }
+
+  function renderGrid(){
+    const q = el('#searchInput').value.trim().toLowerCase();
+    const roomFilter = el('#roomsFilter').value;
+    let list = apartments.filter(a=>{
+      const matchQ = !q || (a.title||'').toLowerCase().includes(q) || (a.area||'').toLowerCase().includes(q);
+      const matchRoom = !roomFilter || (roomFilter === '4' ? (a.rooms >= 4) : (String(a.rooms) === roomFilter));
+      return matchQ && matchRoom;
+    }).sort((a,b)=> b.id - a.id);
+
+    el('#resultCount').textContent = list.length ? `${list.length} شقة` : '';
+    el('#dwgCount').textContent = String(apartments.length).padStart(3,'0');
+
+    const grid = el('#grid');
+    const empty = el('#emptyState');
+    if(list.length === 0){
+      grid.style.display = 'none';
+      empty.style.display = 'block';
+      empty.innerHTML = apartments.length === 0
+        ? `${ICONS.building}<h3>لسه مفيش شقق متاحة دلوقتي</h3><p>هتظهر هنا أول ما تتضاف من لوحة التحكم.</p>`
+        : `${ICONS.building}<h3>مفيش نتائج مطابقة</h3><p>جرّب تغيّر كلمة البحث أو الفلتر.</p>`;
+    }else{
+      empty.style.display = 'none';
+      grid.style.display = 'grid';
+      grid.innerHTML = list.map(cardTemplate).join('');
+      grid.querySelectorAll('.card').forEach(card=>{
+        card.addEventListener('click', ()=> openDetail(card.dataset.id));
+      });
+    }
+  }
+
+  /* ---------------- Detail modal ---------------- */
+  function openDetail(id){
+    const a = apartments.find(x => String(x.id) === String(id));
+    if(!a) return;
+    currentGalleryImages = (a.images && a.images.length) ? a.images : [];
+    el('#dTitle').textContent = a.title || 'بدون عنوان';
+    el('#dPrice').textContent = a.price || '—';
+    el('#dLoc').textContent = a.area || '—';
+    el('#dDesc').textContent = a.desc || 'مفيش وصف إضافي لسه.';
+    el('#dGalleryMain').src = currentGalleryImages[0] || '';
+    el('#dGalleryMain').style.background = currentGalleryImages[0] ? 'transparent' : 'var(--paper-2)';
+
+    const thumbs = el('#dThumbs');
+    thumbs.innerHTML = currentGalleryImages.map((src,i)=>
+      `<img src="${escapeAttr(src)}" data-i="${i}" class="${i===0?'active':''}">`
+    ).join('');
+    thumbs.querySelectorAll('img').forEach(t=>{
+      t.addEventListener('click', ()=>{
+        el('#dGalleryMain').src = currentGalleryImages[t.dataset.i];
+        thumbs.querySelectorAll('img').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
+
+    el('#dSpecs').innerHTML = `
+      <div class="detail-spec">${ICONS.room}<div><span class="lbl">الغرف</span><span class="v">${a.rooms ?? 0}</span></div></div>
+      <div class="detail-spec">${ICONS.bed}<div><span class="lbl">السراير</span><span class="v">${a.beds ?? 0}</span></div></div>
+      <div class="detail-spec ${a.ac?'':'off'}">${ICONS.ac}<div><span class="lbl">التكييف</span><span class="v">${a.ac?'مكيفة':'بدون تكييف'}</span></div></div>
+      <div class="detail-spec">${ICONS.bath}<div><span class="lbl">الحمامات</span><span class="v">${a.baths ?? 0}</span></div></div>
+      <div class="detail-spec ${a.kitchen?'':'off'}">${ICONS.kitchen}<div><span class="lbl">المطبخ</span><span class="v">${a.kitchen?'مجهز':'مش مجهز'}</span></div></div>
+    `;
+
+    const wa = el('#dWa');
+    if(a.phone){
+      wa.style.display = 'inline-flex';
+      wa.href = `https://wa.me/${a.phone.replace(/[^0-9]/g,'')}`;
+      wa.innerHTML = `${ICONS.whatsapp} تواصل على واتساب`;
+    }else{
+      wa.style.display = 'none';
+    }
+    openModal('detailModal');
+  }
+
+  /* ---------------- Modal open/close ---------------- */
+  function openModal(id){ el('#'+id).classList.add('show'); }
+  function closeModal(id){ el('#'+id).classList.remove('show'); }
+  els('[data-close]').forEach(b => b.addEventListener('click', ()=> closeModal(b.dataset.close)));
+  els('.overlay').forEach(o => o.addEventListener('click', (e)=>{ if(e.target === o) o.classList.remove('show'); }));
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') els('.overlay.show').forEach(o=>o.classList.remove('show')); });
+
+  /* ---------------- Auth ---------------- */
+  function openAuth(){
+    if(isAdmin){ openAdmin(); return; }
+    el('#pwInput').value = '';
+    el('#authError').style.display = 'none';
+    openModal('authModal');
+    setTimeout(()=> el('#pwInput').focus(), 50);
+  }
+  el('#openAuth').addEventListener('click', openAuth);
+  el('#openAuth2').addEventListener('click', openAuth);
+
+  function tryAuth(){
+    if(el('#pwInput').value === ADMIN_PASSWORD){
+      isAdmin = true;
+      closeModal('authModal');
+      openAdmin();
+    }else{
+      el('#authError').style.display = 'block';
+    }
+  }
+  el('#submitAuth').addEventListener('click', tryAuth);
+  el('#pwInput').addEventListener('keydown', (e)=>{ if(e.key === 'Enter') tryAuth(); });
+
+  el('#logoutAdmin').addEventListener('click', ()=>{
+    isAdmin = false;
+    closeModal('adminModal');
+    toast('خرجت من لوحة التحكم');
+  });
+
+  /* ---------------- Admin: toggles ---------------- */
+  els('.toggle').forEach(t=>{
+    t.addEventListener('click', ()=>{
+      const target = t.dataset.target;
+      const val = t.dataset.val === 'true';
+      document.querySelectorAll(`.toggle[data-target="${target}"]`).forEach(x=> x.classList.remove('on'));
+      t.classList.add('on');
+      if(target === 'f_ac') acVal = val; else kitchenVal = val;
+    });
+  });
+
+  /* ---------------- Admin: render list ---------------- */
+  function renderAdminList(){
+    const wrap = el('#adminListWrap');
+    el('#adminCount').textContent = apartments.length;
+    if(apartments.length === 0){
+      wrap.innerHTML = `<p style="color:var(--muted); font-size:13.5px;">لسه مفيش شقق. أضف أول شقة من الفورم.</p>`;
+      return;
+    }
+    const sorted = [...apartments].sort((a,b)=> b.id - a.id);
+    wrap.innerHTML = sorted.map(a => `
+      <div class="arow" data-id="${a.id}">
+        ${a.images && a.images[0] ? `<img src="${escapeAttr(a.images[0])}">` : `<div class="arow-ph" style="width:52px;height:40px;border-radius:2px;background:var(--paper-2);flex-shrink:0;"></div>`}
+        <div class="info">
+          <b>${escapeHtml(a.title||'بدون عنوان')}</b>
+          <span>${escapeHtml(a.price||'—')} · ${escapeHtml(a.area||'—')}</span>
+        </div>
+        <div class="actions">
+          <button class="icon-btn" data-edit="${a.id}" title="تعديل">${ICONS.edit}</button>
+          <button class="icon-btn danger" data-del="${a.id}" title="حذف">${ICONS.trash}</button>
+        </div>
+      </div>
+    `).join('');
+    wrap.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', ()=> startEdit(b.dataset.edit)));
+    wrap.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', ()=> deleteApt(b.dataset.del)));
+  }
+
+  function openAdmin(){
+    resetForm();
+    renderAdminList();
+    pendingLogoData = null;
+    el('#s_fb').value = siteSettings.facebook || '';
+    el('#s_tiktok').value = siteSettings.tiktok || '';
+    el('#s_logo').value = '';
+    if(siteSettings.logo){
+      el('#s_logoPreview').src = siteSettings.logo;
+      el('#s_logoPreview').style.display = 'block';
+    }else{
+      el('#s_logoPreview').style.display = 'none';
+    }
+    openModal('adminModal');
+  }
+
+  el('#s_logo').addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      pendingLogoData = reader.result;
+      el('#s_logoPreview').src = pendingLogoData;
+      el('#s_logoPreview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  el('#saveSettings').addEventListener('click', async ()=>{
+    const btn = el('#saveSettings');
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spin" style="border-color:rgba(18,32,54,.25); border-top-color:var(--ink);"></span> جارِ الحفظ...`;
+    const prevSettings = { ...siteSettings };
+    siteSettings = {
+      logo: pendingLogoData || siteSettings.logo || '',
+      facebook: el('#s_fb').value.trim(),
+      tiktok: el('#s_tiktok').value.trim()
+    };
+    try{
+      await persistSettings();
+      applySettings();
+      toast('اتحفظت إعدادات الموقع');
+    }catch(e){
+      siteSettings = prevSettings;
+      toast('حصل خطأ أثناء حفظ الإعدادات، جرّب تاني', true);
+    }finally{
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  });
+
+  function renderImageThumbs(){
+    const wrap = el('#imgThumbs');
+    wrap.innerHTML = pendingApartmentImages.map((src, i) => `
+      <div class="img-thumb">
+        <img src="${escapeAttr(src)}">
+        <button type="button" class="rm" data-i="${i}">${ICONS.close}</button>
+      </div>
+    `).join('') + (pendingApartmentImages.length === 0 ? `<span class="img-hint">مفيش صور متضافة لسه</span>` : '');
+    wrap.querySelectorAll('.rm').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        pendingApartmentImages.splice(Number(b.dataset.i), 1);
+        renderImageThumbs();
+      });
+    });
+  }
+
+  function compressImage(file, maxDim = 1280, quality = 0.72){
+    return new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if(width > height){
+            if(width > maxDim){ height = Math.round(height * maxDim / width); width = maxDim; }
+          }else{
+            if(height > maxDim){ width = Math.round(width * maxDim / height); height = maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = () => reject(new Error('image load failed'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('file read failed'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function byteSize(str){ return new TextEncoder().encode(str).length; }
+
+  el('#f_images_file').addEventListener('change', async (e)=>{
+    const files = Array.from(e.target.files || []);
+    if(files.length === 0) return;
+    const wrap = el('#imgThumbs');
+    wrap.innerHTML = `<span class="img-hint">جارِ تجهيز الصور...</span>`;
+    try{
+      const compressed = await Promise.all(files.map(f => compressImage(f)));
+      pendingApartmentImages.push(...compressed);
+    }catch(err){
+      toast('حصل خطأ أثناء تجهيز الصور، جرّب صورة تانية', true);
+    }
+    renderImageThumbs();
+    e.target.value = '';
+  });
+
+  /* ---------------- Admin: form ---------------- */
+  function resetForm(){
+    editingId = null;
+    el('#formTitle').textContent = 'إضافة شقة جديدة';
+    el('#f_title').value = '';
+    el('#f_area').value = '';
+    el('#f_price').value = '';
+    el('#f_type').value = 'بيع';
+    el('#f_rooms').value = 2;
+    el('#f_beds').value = 2;
+    el('#f_baths').value = 1;
+    el('#f_phone').value = '';
+    el('#f_desc').value = '';
+    pendingApartmentImages = [];
+    renderImageThumbs();
+    acVal = true; kitchenVal = true;
+    document.querySelectorAll('.toggle').forEach(t=> t.classList.remove('on'));
+    document.querySelector('.toggle[data-target="f_ac"][data-val="true"]').classList.add('on');
+    document.querySelector('.toggle[data-target="f_kitchen"][data-val="true"]').classList.add('on');
+    el('#cancelEdit').style.display = 'none';
+    el('#saveApt').textContent = 'نشر الشقة';
+    el('#formError').style.display = 'none';
+  }
+
+  function startEdit(id){
+    const a = apartments.find(x => String(x.id) === String(id));
+    if(!a) return;
+    editingId = a.id;
+    el('#formTitle').textContent = 'تعديل الشقة';
+    el('#f_title').value = a.title || '';
+    el('#f_area').value = a.area || '';
+    el('#f_price').value = a.price || '';
+    el('#f_type').value = a.type || 'بيع';
+    el('#f_rooms').value = a.rooms ?? 2;
+    el('#f_beds').value = a.beds ?? 2;
+    el('#f_baths').value = a.baths ?? 1;
+    el('#f_phone').value = a.phone || '';
+    el('#f_desc').value = a.desc || '';
+    pendingApartmentImages = [...(a.images || [])];
+    renderImageThumbs();
+    acVal = !!a.ac; kitchenVal = !!a.kitchen;
+    document.querySelectorAll('.toggle[data-target="f_ac"]').forEach(t=> t.classList.toggle('on', (t.dataset.val==='true')===acVal));
+    document.querySelectorAll('.toggle[data-target="f_kitchen"]').forEach(t=> t.classList.toggle('on', (t.dataset.val==='true')===kitchenVal));
+    el('#cancelEdit').style.display = 'inline-flex';
+    el('#saveApt').textContent = 'حفظ التعديل';
+    el('#formError').style.display = 'none';
+    window.scrollTo(0,0);
+  }
+  el('#cancelEdit').addEventListener('click', resetForm);
+
+  async function saveApt(){
+    const title = el('#f_title').value.trim();
+    const price = el('#f_price').value.trim();
+    if(!title || !price){
+      el('#formError').style.display = 'block';
+      return;
+    }
+    const images = pendingApartmentImages;
+    const data = {
+      title,
+      price,
+      area: el('#f_area').value.trim(),
+      type: el('#f_type').value,
+      rooms: Number(el('#f_rooms').value) || 0,
+      beds: Number(el('#f_beds').value) || 0,
+      baths: Number(el('#f_baths').value) || 0,
+      ac: acVal,
+      kitchen: kitchenVal,
+      phone: el('#f_phone').value.trim(),
+      desc: el('#f_desc').value.trim(),
+      images
+    };
+
+    const btn = el('#saveApt');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spin"></span> جارِ الحفظ...`;
+
+    const otherApartments = apartments.filter(x => x.id !== editingId);
+    const projected = [...otherApartments, { id: editingId || Date.now(), ...data }];
+    if(byteSize(JSON.stringify(projected)) > 4600000){
+      btn.disabled = false;
+      btn.textContent = originalText;
+      toast('الصور كتير أو كبيرة قوي — شيل صورة أو اتنين وحاول تاني', true);
+      return;
+    }
+
+    try{
+      if(editingId){
+        const idx = apartments.findIndex(x => x.id === editingId);
+        if(idx > -1) apartments[idx] = { ...apartments[idx], ...data };
+      }else{
+        apartments.push({ id: Date.now(), ...data });
+      }
+      await persist();
+      renderGrid();
+      renderAdminList();
+      resetForm();
+      toast(editingId ? 'اتحفظ التعديل' : 'الشقة اتنشرت بنجاح');
+    }catch(e){
+      toast('حصل خطأ أثناء الحفظ، جرّب تاني', true);
+    }finally{
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  }
+  el('#saveApt').addEventListener('click', saveApt);
+
+  async function deleteApt(id){
+    if(!confirm('متأكد إنك عايز تمسح الشقة دي؟')) return;
+    const prev = apartments;
+    apartments = apartments.filter(x => String(x.id) !== String(id));
+    try{
+      await persist();
+      renderGrid();
+      renderAdminList();
+      toast('اتمسحت الشقة');
+    }catch(e){
+      apartments = prev;
+      toast('حصل خطأ أثناء الحذف، جرّب تاني', true);
+    }
+  }
+
+  /* ---------------- Filters ---------------- */
+  el('#searchInput').addEventListener('input', renderGrid);
+  el('#roomsFilter').addEventListener('change', renderGrid);
+
+  /* ---------------- Utils ---------------- */
+  function escapeHtml(str){
+    return String(str ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function escapeAttr(str){ return escapeHtml(str); }
+
+  /* ---------------- Init ---------------- */
+  async function init(){
+    await loadApartments();
+    await loadSettings();
+    el('#loadingWrap').style.display = 'none';
+    el('#grid').style.display = 'grid';
+    renderGrid();
+  }
+  init();
+
+})();
+</script>
+</body>
+</html>
